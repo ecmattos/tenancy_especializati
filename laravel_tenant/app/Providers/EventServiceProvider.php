@@ -13,11 +13,12 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\Tenant\CompanyCreated' => [
-            'App\Listeners\Tenant\CreateCompanyDatabase',
+        'App\Events\Tenant\ClientCreated' => [
+            'App\Listeners\Tenant\CreateClientDatabase',
         ],
         'App\Events\Tenant\DatabaseCreated' => [
             'App\Listeners\Tenant\RunMigrationsTenant',
+            'App\Listeners\Tenant\RunSeedersTenant',
         ],
     ];
 

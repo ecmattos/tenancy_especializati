@@ -5,7 +5,7 @@ namespace App\Console\Commands\Tenant;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use App\Tenant\ManagerTenant;
-use App\Models\Company;
+use App\Entities\Client;
 
 class TenantMigrations extends Command
 {
@@ -45,42 +45,40 @@ class TenantMigrations extends Command
     {
         $id = $this->argument('id');
 
-        if ($id)
+        if($id)
         {
-            $company = Company::find($id);
+            $client = Client::find($id);
 
-            if($company) 
+            if($client) 
             {
-                $this->execCommand($company);
+                $this->execCommand($client);
             }
 
             return;
         }
 
-        $companies = Company::all();
+        $clients = Client::all();
 
-        foreach ($companies as $company) {
-            $this->execCommand($company);
+        foreach ($clients as $client) {
+            $this->execCommand($client);
         }
     }
 
-    public function execCommand(Company $company)
+    public function execCommand(Client $client)
     {
         $command = $this->option('refresh') ? 'migrate:refresh' : 'migrate';
         
-        $this->tenant->setConnection($company);
+        $this->tenant->setConnection($client);
 
-        $this->info("Migrating Company {$company->name}");
+        $this->info("Migrating Client {$client->name}");
 
         Artisan::call($command, [
             '--force' => true,
             '--path' => '/database/migrations/tenant'
         ]);
 
-        $this->info("End Migrating Company {$company->name}");
+        $this->info("End Migrating Client {$client->name}");
         $this->info("---------------------------------------");
         
-    }
-
-
+    } 
 }

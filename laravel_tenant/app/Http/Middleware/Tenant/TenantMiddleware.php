@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware\Tenant;
 
-use App\Models\Company;
+use App\Entities\Client;
 use App\Tenant\ManagerTenant;
 use Closure;
 
@@ -24,22 +24,22 @@ class TenantMiddleware
             return $next($request);
         }
 
-        $company = $this->getCompany($request->getHost());
+        $client = $this->getClient($request->getHost());
         
-        if(!$company && $request->url() != route('404.tenant'))
+        if(!$client && $request->url() != route('404.tenant'))
         {
             return redirect()->route('404.tenant');
         }
         else if ($request->url() != route('404.tenant') && !$manager->domainIsMain())
         {
-            $manager->setConnection($company);
+            $manager->setConnection($client);
         }
 
         return $next($request);
     }
 
-    public function getCompany($host)
+    public function getClient($host)
     {
-        return Company::where('domain', '=', $host)->first();
+        return Client::where('domain', '=', $host)->first();
     }
 }

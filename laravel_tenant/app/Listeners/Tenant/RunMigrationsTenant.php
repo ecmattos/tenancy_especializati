@@ -27,10 +27,10 @@ class RunMigrationsTenant
      */
     public function handle(DatabaseCreated $event)
     {
-        $company = $event->company(); 
+        $client = $event->client(); 
         
         $migration = Artisan::call('tenants:migrations',  [
-            'id' => $company->id
+            'id' => $client->id
         ]);
 
         return $migration === 0;

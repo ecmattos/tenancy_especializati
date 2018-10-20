@@ -10,27 +10,27 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-use App\Models\Company;
+use App\Entities\Client;
 
 class DatabaseCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     
-    private $company;
+    private $client;
     
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Company $company)
+    public function __construct(Client $client)
     {
-        $this->company = $company;
+        $this->client = $client;
     }
 
-    public function company()
+    public function client()
     {
-        return $this->company;
+        return $this->client;
     }
 
     /**
